@@ -5,4 +5,4 @@ namespace IMStart {
             int buildConf();
             int loadConf();
     };
-};
+}

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(openims-backend VERSION 0.1)
 
 set(targets src/main.cxx src/startup.cxx)
-include_directories("C:/msys64/mingw64/include/" "C:/msys64/mingw64/include/c++/12.2.0" ${PROJECT_SOURCE_DIR}/include)
+include_directories("C:/msys64/mingw64/include/" "C:/msys64/mingw64/include/c++/12.2.0" "C:/msys64/mingw/include/sys" ${PROJECT_SOURCE_DIR}/include)
 
 add_executable(openims-backend ${targets})
 

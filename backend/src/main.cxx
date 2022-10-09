@@ -8,9 +8,12 @@
 IMStart::config conf;
 
 int main() {
+    std::cout << "Welcome to OpenIMS.\n";
+    std::cout << "Checking for configuration files...\n";
     if(conf.confCheck() == true) {
-        std::cout << "Test";
+        std::cout << "Configuration files found. Continuing...\n";
     } else {
-        std::cout << "Test failed";
+        std::cout << "Could not find configuration files, Creating new configurations...\n";
+        conf.buildConf();
     }
 }
