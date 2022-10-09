@@ -12,8 +12,9 @@ int main() {
     std::cout << "Checking for configuration files...\n";
     if(conf.confCheck() == true) {
         std::cout << "Configuration files found. Continuing...\n";
+        conf.loadConf();
     } else {
-        std::cout << "Could not find configuration files, Creating new configurations...\n";
         conf.buildConf();
+        conf.loadConf();
     }
 }
