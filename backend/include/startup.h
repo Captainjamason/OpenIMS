@@ -1,8 +1,8 @@
 namespace IMStart {
     class config {
         public:
-            bool confCheck();
+            bool check(std::string path);
             int buildConf();
-            int loadConf();
+            int loadConfigs();
     };
 }

@@ -21,45 +21,47 @@ bool verifyConf(std::string confPath) {
     }
 }
 
-bool config::confCheck() {
-    std::ifstream mainConf;
-    mainConf.open("./config/main.json");
-    if(mainConf.is_open()) {
-        if(mainConf.fail()){
+int genFile(std::string confPath, std::string examplePath) {
+    std::ofstream conf;
+    std::ifstream exampleConf;
+    std::string data;
+
+    conf.open(confPath);
+    exampleConf.open(examplePath);
+
+    while(getline(exampleConf, data)) {
+        conf << data << std::endl;
+    }
+
+    exampleConf.close();
+    conf.close();
+    return 0;
+};
+
+bool config::check(std::string path) {
+    std::ifstream conf;
+    conf.open(path);
+    if(conf.is_open()) {
+        if(conf.fail()){
             return false;
         } else {
-            if(verifyConf("config/main.json") == false) {
-                std::cout << "Main configuration file does not exist or is incompatible. \n";
+            if(verifyConf(path) == false) {
+                std::cout << path << " does not exist or is incompatible.\n";
                 return false;
             } else {
-                std::cout << "Loaded main configuration file.";
+               return true;
             }
         }
     } else {
+        std::cout << "Could not open " << path << std::endl;
         return false;
     }
 }
 
-int genMainFile() {
-    std::ofstream mainConf;
-    std::ifstream exampleMainConf;
-    std::string data;
-
-    mainConf.open("config/main.json");
-    exampleMainConf.open("Examples/main.json");
-
-    while(getline(exampleMainConf, data)) {
-        mainConf << data << std::endl;
-    }
-
-    exampleMainConf.close();
-    mainConf.close();
-    return 0;
-}
-
 int config::buildConf() {
-    std::string confDir = "config/";
     struct stat info;
+    std::string confDir = "config/";
+
     // Folder check
     if(stat(confDir.c_str(), &info) != 0) {
         if(mkdir(confDir.c_str()) != 0) {
@@ -69,28 +71,43 @@ int config::buildConf() {
             // If folder was successfully created, then generate configuration files in order.
             std::cout << "Generating configuration files...\n";
             std::cout << "Generating main configuration file...\n";
-            if(genMainFile() != 0) {
+            if(genFile("config/main.json", "Examples/main.json") != 0) {
                 std::cout << "ERROR: Could not generate main configuration file.\n";
                 return 1;
             } else {
-                std::cout << "Main configuration file generated...\n";
-                return 0;
-            } 
+                 std::cout << "Created main.json\n"; 
+            }
+            
+            std::cout << "Generating module configuration file...\n";
+            if(genFile("config/modules.json", "Examples/modules.json") != 0) {
+                std::cout << "ERROR: Could not generate module.json.\n";
+                return 1;
+            } else {
+                std::cout << "Created modules.json\n";
+            }
         }
     } else {
         // TO-DO: Optimize code so its not repeating here.
         // If folder exists alraedy then generate main configuration file,
         std::cout << "Generating configuration files...\n";
-        if(genMainFile() != 0) {
-            std::cout << "ERROR: Could not generate main configuration file.\n";
-            return 1;
-        } else {
-            std::cout << "Main configuration file generated...\n";
-            return 0;
-        }  
+            std::cout << "Generating main configuration file...\n";
+            if(genFile("config/main.json", "Examples/main.json") != 0) {
+                std::cout << "ERROR: Could not generate main configuration file.\n";
+                return 1;
+            } else {
+                 std::cout << "Created main.json\n"; 
+            }
+            
+            std::cout << "Generating module configuration file...\n";
+            if(genFile("config/modules.json", "Examples/modules.json") != 0) {
+                std::cout << "ERROR: Could not generate module.json.\n";
+                return 1;
+            } else {
+                std::cout << "Created modules.json\n";
+            }
     }
 }
 
-int config::loadConf() {
+int config::loadConfigs() {
     
 }

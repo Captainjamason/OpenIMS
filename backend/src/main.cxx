@@ -10,11 +10,11 @@ IMStart::config conf;
 int main() {
     std::cout << "Welcome to OpenIMS.\n";
     std::cout << "Checking for configuration files...\n";
-    if(conf.confCheck() == true) {
+    if(conf.check("config/main.json") && conf.check("config/modules.json") == true) {
         std::cout << "Configuration files found. Continuing...\n";
-        conf.loadConf();
+        conf.loadConfigs();
     } else {
         conf.buildConf();
-        conf.loadConf();
+        conf.loadConfigs();
     }
 }
